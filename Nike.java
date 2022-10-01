@@ -89,18 +89,14 @@ public class Nike {
 		// Click on ADD to BAG
 		driver.findElement(By.xpath("(//span[@class='btn-text'])[1]")).click();
 
-		// Go to Shopping Bag 
-		driver.findElement(By.xpath("//button[@class='css-g4vs13']")).click();
-		//Print the Grand Total amount
-		Thread.sleep(2000);
-		//WebElement switchFrame=driver.findElement(By.xpath("//div[@class='css-1o9rwmy e1xdieeb5']"));
+		WebElement findElement5 = driver.findElement(By.xpath("//button[@class='css-g4vs13']"));
+		findElement5.click();
 		driver.switchTo().frame(0);
-		Thread.sleep(2000);
-		String grandTotal=driver.findElement(By.xpath("(//div[@class='footer-layout css-2vxg6l e25lf6d0']//span)[1]")).getText();
-		System.out.println("Shampoo Grand Total is:" +grandTotal);
-
-		// Click Proceed
-		driver.findElement(By.xpath("//div[@class='css-207d6f e25lf6d6']")).click();
+		//Grant Total
+		String grandTotal = driver.findElement(By.xpath("//div[@class='payment-tbl-data']//div[@class='value medium-strong']")).getText();
+		System.out.println("GrandTotal :"+grandTotal);
+		//click proceed
+		driver.findElement(By.xpath("//span[text()='Proceed']")).click();
 
 		// Click on Continue as Guest
 		driver.findElement(By.xpath("//button[@class='btn full big']")).click();
