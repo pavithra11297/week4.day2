@@ -3,6 +3,7 @@ package week4.day2;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -47,110 +48,88 @@ public class Snapdeal {
 				break;
 			}
 		}
-		/*
-		//		Check if the items displayed are sorted correctly
+
+		//Check if the items displayed are sorted correctly
 		List<WebElement> sortedItems = driver.findElements(By.xpath("//span[@class='lfloat product-price']"));
 		List<String> sortedItemsList=new ArrayList<String>();
-		String items;
 		for(int i=1;i<sortedItems.size();i++)
 		{
 			Thread.sleep(1000);
-			items=sortedItems.get(i).getText();
-			Thread.sleep(1000);
-			System.out.println("Values brofore sorted" +items);
-			}
-		 */
+			String items1=sortedItems.get(i).getText();
+			Thread.sleep(2000);
+			System.out.println("Values brofore sorted" +items1);
+			sortedItemsList.add(items1);
+			String replaceall=items1.replaceAll("\\D", "");
+			int parseInt=Integer.parseInt(replaceall);
+			System.out.println(parseInt);
 
-		//				Thread.sleep(2000);
-		//				for (WebElement values : sortedItems) {
-		//					String s=values.getText();
-		//					Thread.sleep(2000);
-		//					sortedItemsList.add(s);
-		//					System.out.println("Values brofore sorted" +sortedItemsList);
-
-		//
-		//		//Collections.sort(items);
-		//		if(sortedItems.equals(sortedItemsList))
-		//		{
-		//			System.out.println("Values sorted");
-		//
-		//		}else
-		//		{
-		//			System.out.println("values not sorted");
-		//
-		//		}
-
-
-
-
+		}
 
 		//Select the price range (900-1200)
-				String fromRange="900";
-				String toRange="1200";
-				WebElement rangeFrom = driver.findElement(By.xpath("//input[@class='input-filter']"));
-				rangeFrom.clear();
-				rangeFrom.sendKeys(fromRange);
-				WebElement rangeTo=driver.findElement(By.xpath("(//input[@class='input-filter'])[2]"));
-				rangeTo.clear();
-				rangeTo.sendKeys(toRange);
-				driver.findElement(By.xpath("//div[@class='price-go-arrow btn btn-line btn-theme-secondary']")).click();
-				
-				//Filter with color Navy   --Navy color shoe not available, so i filtered yellow
-				Thread.sleep(2000);
-				driver.findElement(By.xpath("//label[@for='Color_s-Yellow']")).click();
-				
-				//verify the all applied filters 
-				Thread.sleep(2000);
-				String priceFilter = driver.findElement(By.xpath("//div[@class='filters']//div/a")).getText();
-				System.out.println("Filtered Price is: "+priceFilter);
-				String colorFilter = driver.findElement(By.xpath("(//div[@class='filters']//div/a)[2]")).getText();
-				System.out.println("Filtered color is: " +colorFilter);
-				
-				if(priceFilter.contains(fromRange))
-				{
-					System.out.println("Applied Price is Filtered correctly");	
-				}
-				else
-				{
-					System.out.println("Applied Price is not Filtered correctly");	
-				}
-				//shoe color verified
-				if(colorFilter.contains("Yellow"))
-				{
-					System.out.println("Applied color is Filtered correctly");	
-				}
-				else
-				{
-					System.out.println("Applied color is not Filtered correctly");	
-				}
-				
-				//Mouse Hover on first resulting Training shoes
-				Thread.sleep(1000);
-				WebElement firstResulting = driver.findElement(By.xpath("//img[@class='product-image wooble']"));
-				Thread.sleep(1000);
-				builder.moveToElement(firstResulting).perform();
+		String fromRange="900";
+		String toRange="1200";
+		WebElement rangeFrom = driver.findElement(By.xpath("//input[@class='input-filter']"));
+		rangeFrom.clear();
+		rangeFrom.sendKeys(fromRange);
+		WebElement rangeTo=driver.findElement(By.xpath("(//input[@class='input-filter'])[2]"));
+		rangeTo.clear();
+		rangeTo.sendKeys(toRange);
+		driver.findElement(By.xpath("//div[@class='price-go-arrow btn btn-line btn-theme-secondary']")).click();
+
+		//Filter with color Navy   --Navy color shoe not available, so i filtered yellow
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//label[@for='Color_s-Yellow']")).click();
+
+		//verify the all applied filters 
+		Thread.sleep(2000);
+		String priceFilter = driver.findElement(By.xpath("//div[@class='filters']//div/a")).getText();
+		System.out.println("Filtered Price is: "+priceFilter);
+		String colorFilter = driver.findElement(By.xpath("(//div[@class='filters']//div/a)[2]")).getText();
+		System.out.println("Filtered color is: " +colorFilter);
+
+		if(priceFilter.contains(fromRange))
+		{
+			System.out.println("Applied Price is Filtered correctly");	
+		}
+		else
+		{
+			System.out.println("Applied Price is not Filtered correctly");	
+		}
+		//shoe color verified
+		if(colorFilter.contains("Yellow"))
+		{
+			System.out.println("Applied color is Filtered correctly");	
+		}
+		else
+		{
+			System.out.println("Applied color is not Filtered correctly");	
+		}
+
+		//Mouse Hover on first resulting Training shoes
+		Thread.sleep(1000);
+		WebElement firstResulting = driver.findElement(By.xpath("//img[@class='product-image wooble']"));
+		Thread.sleep(1000);
+		builder.moveToElement(firstResulting).perform();
 		//		
-				//click QuickView button
-				WebElement firstResultingShoe = driver.findElement(By.xpath("//a[@class='dp-widget-link hashAdded']/following::div[@class='clearfix row-disc']//div"));
-				Thread.sleep(1000);
-				firstResultingShoe.click();
-				Thread.sleep(2000);
-				
-				//Print the cost and the discount percentage
-				String cost = driver.findElement(By.xpath("//DIV[@class='product-price pdp-e-i-PAY-l clearfix']//span")).getText();
-				String discountPercentage = driver.findElement(By.xpath("(//DIV[@class='product-price pdp-e-i-PAY-l clearfix']//span)[2]")).getText();
-				System.out.println("The Cost is "+cost +" and the Discount percentage is " +discountPercentage);
-				
-				// Take the snapshot of the shoes
-				File Source = driver.getScreenshotAs(OutputType.FILE);
-				File designation=new File("./snaps/shoe.png");
-				FileUtils.copyFile(Source, designation);
-				
-				//Close the current window
-				driver.findElement(By.xpath("//div[@class='close close1 marR10']//i")).click();
-				// Close the main window
-			driver.close();
+		//click QuickView button
+		WebElement firstResultingShoe = driver.findElement(By.xpath("//a[@class='dp-widget-link hashAdded']/following::div[@class='clearfix row-disc']//div"));
+		Thread.sleep(1000);
+		firstResultingShoe.click();
+		Thread.sleep(2000);
 
+		//Print the cost and the discount percentage
+		String cost = driver.findElement(By.xpath("//DIV[@class='product-price pdp-e-i-PAY-l clearfix']//span")).getText();
+		String discountPercentage = driver.findElement(By.xpath("(//DIV[@class='product-price pdp-e-i-PAY-l clearfix']//span)[2]")).getText();
+		System.out.println("The Cost is "+cost +" and the Discount percentage is " +discountPercentage);
+
+		// Take the snapshot of the shoes
+		File Source = driver.getScreenshotAs(OutputType.FILE);
+		File designation=new File("./snaps/shoe.png");
+		FileUtils.copyFile(Source, designation);
+
+		//Close the current window
+		driver.close();
+		// Close the main window
+		driver.quit();
 	}
-
 }
